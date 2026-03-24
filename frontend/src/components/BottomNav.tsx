@@ -3,22 +3,35 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
-function getToken() {
-  if (typeof window === 'undefined') return null;
-  return localStorage.getItem('token');
-}
+import useWishlistStore from '@/store/wishlist.store';
 
 export default function BottomNav() {
   const pathname = usePathname();
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const wishlistCount = useWishlistStore((s) => s.items.length);
+  const { load, loaded } = useWishlistStore();
 
   useEffect(() => {
-    setLoggedIn(!!getToken());
-    const handler = () => setLoggedIn(!!getToken());
-    window.addEventListener('storage', handler);
-    return () => window.removeEventListener('storage', handler);
+    const check = () => {
+      const token = localStorage.getItem('token');
+      setLoggedIn(!!token);
+      try {
+        const raw = localStorage.getItem('user');
+        const user = raw ? JSON.parse(raw) : null;
+        setIsAdmin(user?.role === 'admin');
+      } catch {
+        setIsAdmin(false);
+      }
+    };
+    check();
+    window.addEventListener('storage', check);
+    return () => window.removeEventListener('storage', check);
   }, []);
+
+  useEffect(() => {
+    if (loggedIn && !loaded) load();
+  }, [loggedIn, loaded, load]);
 
   if (pathname.startsWith('/admin')) return null;
 
@@ -44,7 +57,7 @@ export default function BottomNav() {
         </svg>
       ),
     },
-    {
+    ...(!isAdmin ? [{
       href: '/orders',
       label: 'Orders',
       icon: (active: boolean) => (
@@ -53,7 +66,23 @@ export default function BottomNav() {
           <path d="M3 9h18M9 21V9" />
         </svg>
       ),
-    },
+    }] : []),
+    ...(loggedIn && !isAdmin ? [{
+      href: '/wishlist',
+      label: 'Wishlist',
+      icon: (active: boolean) => (
+        <span className="relative">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill={active ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+          </svg>
+          {wishlistCount > 0 && (
+            <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[9px] font-bold text-on-primary">
+              {wishlistCount > 99 ? '99+' : wishlistCount}
+            </span>
+          )}
+        </span>
+      ),
+    }] : []),
     loggedIn
       ? {
           href: '/profile',
@@ -83,7 +112,7 @@ export default function BottomNav() {
       className="fixed bottom-0 left-0 right-0 z-50 glass-nav border-t border-outline-variant/10 h-20"
       aria-label="Main navigation"
     >
-      <div className="grid grid-cols-4 h-full max-w-md mx-auto">
+      <div className={`grid h-full max-w-md mx-auto ${isAdmin ? 'grid-cols-3' : loggedIn ? 'grid-cols-5' : 'grid-cols-4'}`}>
         {navItems.map(({ href, label, icon }) => {
           const active = pathname === href || (href !== '/' && href !== '/login' && pathname.startsWith(href));
           return (

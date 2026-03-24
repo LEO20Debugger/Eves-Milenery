@@ -5,7 +5,8 @@ import Link from 'next/link';
 import useCartStore from '@/store/cart.store';
 
 export default function CartPage() {
-  const { items, updateQty, remove, total } = useCartStore();
+  const { items, updateQty, remove } = useCartStore();
+  const total = items.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
 
   if (items.length === 0) {
     return (

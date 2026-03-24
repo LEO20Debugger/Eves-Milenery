@@ -19,7 +19,6 @@ interface CartState {
   remove: (id: string) => void;
   updateQty: (id: string, qty: number) => void;
   clear: () => void;
-  total: number;
 }
 
 const useCartStore = create<CartState>()(
@@ -62,13 +61,6 @@ const useCartStore = create<CartState>()(
       },
 
       clear: () => set({ items: [] }),
-
-      get total() {
-        return get().items.reduce(
-          (sum, i) => sum + i.product.price * i.quantity,
-          0
-        );
-      },
     }),
     {
       name: 'cart-storage',

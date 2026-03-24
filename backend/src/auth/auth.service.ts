@@ -11,6 +11,7 @@ import { DRIZZLE_CLIENT } from '../db/drizzle.constants';
 import { users } from '../db/schema';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Injectable()
 export class AuthService {
@@ -53,6 +54,21 @@ export class AuthService {
       .where(eq(users.id, userId))
       .limit(1);
     if (!user) throw new UnauthorizedException('User not found');
+    const { passwordHash: _, ...result } = user;
+    return result;
+  }
+
+  async updateMe(userId: string, dto: UpdateProfileDto) {
+    const updates: Record<string, any> = {};
+    if (dto.name) updates.name = dto.name;
+    if (dto.phone !== undefined) updates.phone = dto.phone;
+
+    const [user] = await this.db
+      .update(users)
+      .set(updates)
+      .where(eq(users.id, userId))
+      .returning();
+
     const { passwordHash: _, ...result } = user;
     return result;
   }

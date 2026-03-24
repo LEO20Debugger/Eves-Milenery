@@ -3,6 +3,7 @@ interface Review {
   rating: number;
   comment: string;
   createdAt: string | Date;
+  userName?: string | null;
 }
 
 interface ReviewListProps {
@@ -60,7 +61,16 @@ export default function ReviewList({ reviews }: ReviewListProps) {
         {reviews.map((review) => (
           <li key={review.id} className="rounded-lg border border-gray-200 bg-white p-4">
             <div className="flex items-center justify-between gap-2">
-              <StarRating rating={review.rating} />
+              <div className="flex items-center gap-2">
+                <div className="h-7 w-7 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0">
+                  <span className="font-label text-[10px] uppercase text-outline">
+                    {review.userName ? review.userName.charAt(0) : '?'}
+                  </span>
+                </div>
+                <span className="font-label text-xs uppercase tracking-wider text-on-surface">
+                  {review.userName ?? 'Anonymous'}
+                </span>
+              </div>
               <time
                 dateTime={new Date(review.createdAt).toISOString()}
                 className="text-xs text-gray-400"
@@ -72,6 +82,7 @@ export default function ReviewList({ reviews }: ReviewListProps) {
                 })}
               </time>
             </div>
+            <StarRating rating={review.rating} />
             <p className="mt-2 text-sm text-gray-700">{review.comment}</p>
           </li>
         ))}

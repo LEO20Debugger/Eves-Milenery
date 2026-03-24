@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import useCartStore from '@/store/cart.store';
+import WishlistButton from './WishlistButton';
 
 interface ProductActionsProps {
   product: {
@@ -43,7 +44,7 @@ export default function ProductActions({ product }: ProductActionsProps) {
           aria-disabled="true"
           className="min-h-[44px] w-full rounded-lg bg-gray-300 px-6 py-3 text-sm font-semibold text-gray-500 cursor-not-allowed"
         >
-          Add to Cart
+          Add to Bag
         </button>
         <button
           disabled
@@ -60,10 +61,10 @@ export default function ProductActions({ product }: ProductActionsProps) {
     <div className="flex flex-col gap-3">
       <button
         onClick={handleAddToCart}
-        aria-label={`Add ${product.name} to cart`}
+        aria-label={`Add ${product.name} to bag`}
         className="min-h-[44px] w-full rounded-lg bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-700"
       >
-        Add to Cart
+        Add to Bag
       </button>
       <button
         onClick={handleBuyNow}
@@ -72,6 +73,11 @@ export default function ProductActions({ product }: ProductActionsProps) {
       >
         Buy Now
       </button>
+      <WishlistButton
+        productId={product.id}
+        productName={product.name}
+        className="min-h-[44px] w-full border border-outline-variant py-3 font-label text-xs uppercase tracking-widest text-outline hover:text-primary hover:border-primary transition-colors gap-2"
+      />
     </div>
   );
 }

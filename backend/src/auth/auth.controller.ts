@@ -1,8 +1,9 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Request } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Patch, Post, Request } from '@nestjs/common';
 import { Public } from '../common/decorators/public.decorator';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -30,5 +31,10 @@ export class AuthController {
   @Get('me')
   async me(@Request() req: any) {
     return this.authService.getMe(req.user.id);
+  }
+
+  @Patch('me')
+  async updateMe(@Request() req: any, @Body() dto: UpdateProfileDto) {
+    return this.authService.updateMe(req.user.id, dto);
   }
 }
