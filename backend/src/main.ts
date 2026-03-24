@@ -17,10 +17,7 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
 
   app.enableCors({
-    origin: [
-      'http://localhost:3000',
-      process.env.FRONTEND_URL,
-    ].filter(Boolean) as string[],
+    origin: true,
     credentials: true,
   });
 
