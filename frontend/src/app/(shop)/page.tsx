@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import ProductCard, { type ProductCardProps } from '@/components/ProductCard';
+import { type ProductCardProps } from '@/components/ProductCard';
 
 export const metadata: Metadata = {
   title: "Eve's Millinery",
@@ -162,71 +162,9 @@ export default async function HomePage() {
         </p>
 
         {featuredProducts.length > 0 ? (
-          <div className="grid grid-cols-12 gap-y-16 gap-x-6">
-            {/* First product: wide */}
-            {featuredProducts[0] && (
-              <div className="col-span-12 md:col-span-7 group">
-                <Link href={`/shop/${featuredProducts[0].slug}`} className="block">
-                  <div className="relative overflow-hidden bg-surface-container-lowest aspect-[4/5]">
-                    {featuredProducts[0].images?.[0] ? (
-                      <Image
-                        src={featuredProducts[0].images[0]}
-                        alt={featuredProducts[0].name}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 58vw"
-                        className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-surface-container" />
-                    )}
-                  </div>
-                  <div className="mt-6 flex justify-between items-start">
-                    <div>
-                      <h3 className="font-headline text-xl">{featuredProducts[0].name}</h3>
-                      <p className="font-label text-xs uppercase tracking-widest text-outline mt-1">
-                        {featuredProducts[0].stock <= 5 && featuredProducts[0].stock > 0 ? 'Limited Stock' : 'In Stock'}
-                      </p>
-                    </div>
-                    <span className="font-body text-base">
-                      ₦{(typeof featuredProducts[0].price === 'number' ? featuredProducts[0].price : parseFloat(String(featuredProducts[0].price))).toLocaleString('en-NG')}
-                    </span>
-                  </div>
-                </Link>
-              </div>
-            )}
-
-            {/* Second product: offset right */}
-            {featuredProducts[1] && (
-              <div className="col-span-12 md:col-span-4 md:col-start-9 md:pt-20 group">
-                <Link href={`/shop/${featuredProducts[1].slug}`} className="block">
-                  <div className="relative overflow-hidden bg-surface-container-lowest aspect-square">
-                    {featuredProducts[1].images?.[0] ? (
-                      <Image
-                        src={featuredProducts[1].images[0]}
-                        alt={featuredProducts[1].name}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                        className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-surface-container" />
-                    )}
-                  </div>
-                  <div className="mt-6 flex justify-between items-start">
-                    <div>
-                      <h3 className="font-headline text-xl">{featuredProducts[1].name}</h3>
-                    </div>
-                    <span className="font-body text-base">
-                      ₦{(typeof featuredProducts[1].price === 'number' ? featuredProducts[1].price : parseFloat(String(featuredProducts[1].price))).toLocaleString('en-NG')}
-                    </span>
-                  </div>
-                </Link>
-              </div>
-            )}
-
-            {/* Remaining products: 3-col grid */}
-            {featuredProducts.slice(2).map((product) => (
-              <div key={product.id} className="col-span-12 md:col-span-4 group">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-16 md:grid-cols-3">
+            {featuredProducts.map((product) => (
+              <div key={product.id} className="group">
                 <Link href={`/shop/${product.slug}`} className="block">
                   <div className="relative overflow-hidden bg-surface-container-lowest aspect-[3/4]">
                     {product.images?.[0] ? (
@@ -234,16 +172,16 @@ export default async function HomePage() {
                         src={product.images[0]}
                         alt={product.name}
                         fill
-                        sizes="(max-width: 768px) 100vw, 33vw"
+                        sizes="(max-width: 768px) 50vw, 33vw"
                         className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                       />
                     ) : (
                       <div className="w-full h-full bg-surface-container" />
                     )}
                   </div>
-                  <div className="mt-6 flex justify-between items-start">
-                    <h3 className="font-headline text-lg">{product.name}</h3>
-                    <span className="font-body text-sm text-outline">
+                  <div className="mt-4 flex justify-between items-start">
+                    <h3 className="font-headline text-base md:text-lg">{product.name}</h3>
+                    <span className="font-body text-sm text-outline ml-2 flex-shrink-0">
                       ₦{(typeof product.price === 'number' ? product.price : parseFloat(String(product.price))).toLocaleString('en-NG')}
                     </span>
                   </div>
