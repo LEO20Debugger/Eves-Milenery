@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Request } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Request } from '@nestjs/common';
 import { Public } from '../common/decorators/public.decorator';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -25,5 +25,10 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   logout(@Request() _req: any) {
     return { message: 'Logged out successfully' };
+  }
+
+  @Get('me')
+  async me(@Request() req: any) {
+    return this.authService.getMe(req.user.id);
   }
 }

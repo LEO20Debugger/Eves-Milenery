@@ -46,6 +46,17 @@ export class AuthService {
     return result;
   }
 
+  async getMe(userId: string) {
+    const [user] = await this.db
+      .select()
+      .from(users)
+      .where(eq(users.id, userId))
+      .limit(1);
+    if (!user) throw new UnauthorizedException('User not found');
+    const { passwordHash: _, ...result } = user;
+    return result;
+  }
+
   async login(dto: LoginDto) {
     const [user] = await this.db
       .select()

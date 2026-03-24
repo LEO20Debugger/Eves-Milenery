@@ -100,7 +100,7 @@ export default async function HomePage() {
             fill
             priority
             sizes="100vw"
-            className="object-cover object-top grayscale"
+            className="object-cover object-center grayscale"
           />
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-surface-container-highest to-surface-dim" />
