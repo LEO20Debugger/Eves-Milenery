@@ -9,6 +9,7 @@ import { OrdersModule } from './orders/orders.module';
 import { PaymentsModule } from './payments/payments.module';
 import { UploadsModule } from './uploads/uploads.module';
 import { ReviewsModule } from './reviews/reviews.module';
+import { SettingsModule } from './settings/settings.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { RolesGuard } from './auth/roles.guard';
 
@@ -26,6 +27,7 @@ import { RolesGuard } from './auth/roles.guard';
     PaymentsModule,
     UploadsModule,
     ReviewsModule,
+    SettingsModule,
   ],
   providers: [
     {
