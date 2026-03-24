@@ -2,7 +2,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { and, eq, gte, lte, desc, asc, sql, count } from 'drizzle-orm';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { DRIZZLE_CLIENT } from '../db/drizzle.constants';
-import { products, reviews, Product } from '../db/schema';
+import { products, categories, reviews, Product } from '../db/schema';
 import { QueryProductsDto } from './dto/query-products.dto';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -49,8 +49,29 @@ export class ProductsService {
 
     const [data, totalResult] = await Promise.all([
       this.db
-        .select()
+        .select({
+          id: products.id,
+          name: products.name,
+          slug: products.slug,
+          description: products.description,
+          price: products.price,
+          stock: products.stock,
+          initialStock: products.initialStock,
+          categoryId: products.categoryId,
+          images: products.images,
+          color: products.color,
+          deleted: products.deleted,
+          deletedAt: products.deletedAt,
+          createdAt: products.createdAt,
+          updatedAt: products.updatedAt,
+          category: {
+            id: categories.id,
+            name: categories.name,
+            slug: categories.slug,
+          },
+        })
         .from(products)
+        .leftJoin(categories, eq(products.categoryId, categories.id))
         .where(where)
         .orderBy(orderBy)
         .limit(limit)
