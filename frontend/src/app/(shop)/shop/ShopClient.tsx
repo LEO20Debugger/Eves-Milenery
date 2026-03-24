@@ -221,30 +221,41 @@ export default function ShopClient({ categories, initialCategoryId }: ShopClient
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-y-20 md:gap-x-8">
+          <div className="grid grid-cols-2 md:grid-cols-12 gap-y-16 gap-x-4 md:gap-x-8">
             {products.map((product, idx) => {
-              // Alternate wide/narrow layout like the LUMIERE grid
-              const isWide = idx % 3 === 0;
-              const isOffset = idx % 3 === 1;
+              // Pattern per group of 7:
+              // 0 → wide portrait, 1 → offset portrait
+              // 2,3,4 → 3 side by side
+              // 5,6 → 2 side by side
+              // Pattern repeats every 5: [wide, offset, 3-col, 3-col, 3-col]
+              const pos = idx % 5;
+              let colClass = '';
+              let aspect = 'aspect-[3/4]';
+              let extraClass = '';
+
+              if (pos === 0) {
+                colClass = 'col-span-2 md:col-span-7';
+                aspect = 'aspect-[4/5]';
+              } else if (pos === 1) {
+                colClass = 'col-span-2 md:col-span-5';
+                aspect = 'aspect-square';
+                extraClass = 'md:mt-16';
+              } else {
+                // pos 2, 3, 4 → 3 side by side
+                colClass = 'col-span-1 md:col-span-4';
+                aspect = 'aspect-[3/4]';
+              }
+
               return (
-                <div
-                  key={product.id}
-                  className={`group ${
-                    isWide
-                      ? 'md:col-span-7'
-                      : isOffset
-                      ? 'md:col-span-5 md:mt-16'
-                      : 'md:col-span-12'
-                  }`}
-                >
+                <div key={product.id} className={`group ${colClass} ${extraClass}`}>
                   <Link href={`/shop/${product.slug}`} className="block">
-                    <div className={`relative overflow-hidden bg-surface-container-lowest ${isWide ? 'aspect-[4/5]' : isOffset ? 'aspect-square' : 'aspect-[16/7]'}`}>
+                    <div className={`relative overflow-hidden bg-surface-container-lowest ${aspect}`}>
                       {product.images?.[0] ? (
                         <Image
                           src={product.images[0]}
                           alt={product.name}
                           fill
-                          sizes="(max-width: 768px) 100vw, 58vw"
+                          sizes="(max-width: 768px) 50vw, 33vw"
                           className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
                         />
                       ) : (
@@ -263,11 +274,9 @@ export default function ShopClient({ categories, initialCategoryId }: ShopClient
                         </div>
                       )}
                     </div>
-                    <div className="mt-6 flex justify-between items-start">
-                      <div>
-                        <h3 className="font-headline text-xl">{product.name}</h3>
-                      </div>
-                      <span className="font-body text-base">₦{product.price.toLocaleString('en-NG')}</span>
+                    <div className="mt-4 flex justify-between items-start">
+                      <h3 className="font-headline text-base md:text-xl">{product.name}</h3>
+                      <span className="font-body text-sm md:text-base ml-2 flex-shrink-0">₦{product.price.toLocaleString('en-NG')}</span>
                     </div>
                   </Link>
                 </div>
