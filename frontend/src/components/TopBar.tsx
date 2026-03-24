@@ -168,7 +168,7 @@ export default function TopBar() {
                     onClick={() => setMenuOpen(false)}
                     className="block font-label text-xs uppercase tracking-[0.2em] py-3 text-on-surface hover:text-primary transition-colors"
                   >
-                    Login / Register
+                    Login / Sign Up
                   </Link>
                 </li>
               )}
