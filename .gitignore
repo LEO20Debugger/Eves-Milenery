@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# Environment files — NEVER commit these
+.env
+.env.local
+.env.*.local
+
+# IDE
+.kiro/
+
+# OS
+.DS_Store
+Thumbs.db
