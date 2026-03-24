@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { type ProductCardProps } from '@/components/ProductCard';
 import { type Category } from '@/components/FilterSidebar';
+import WishlistButton from '@/components/WishlistButton';
 
 interface ApiProduct {
   id: string;
@@ -273,6 +274,11 @@ export default function ShopClient({ categories, initialCategoryId }: ShopClient
                           <span className="bg-primary text-on-primary px-2 py-0.5 font-label text-[9px] uppercase tracking-widest">Limited</span>
                         </div>
                       )}
+                      <WishlistButton
+                        productId={product.id}
+                        productName={product.name}
+                        className="absolute top-3 right-3 min-h-[44px] min-w-[44px] bg-surface-container-lowest/70 backdrop-blur-sm"
+                      />
                     </div>
                     <div className="mt-4 flex justify-between items-start">
                       <h3 className="font-headline text-base md:text-xl">{product.name}</h3>

@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import useCartStore from '@/store/cart.store';
+import WishlistButton from './WishlistButton';
 
 export interface ProductCardProps {
   id: string;
@@ -65,6 +66,11 @@ export default function ProductCard({
             </span>
           )}
         </div>
+        <WishlistButton
+          productId={id}
+          productName={name}
+          className="absolute top-3 right-3 min-h-[44px] min-w-[44px]"
+        />
       </Link>
 
       <div className="mt-4 flex flex-col gap-3">

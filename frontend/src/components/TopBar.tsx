@@ -112,17 +112,28 @@ export default function TopBar() {
               ))}
               {user ? (
                 <>
-                  <li>
-                    <Link
-                      href="/orders"
-                      onClick={() => setMenuOpen(false)}
-                      className="block font-label text-xs uppercase tracking-[0.2em] py-3 border-b border-outline-variant/20 text-on-surface hover:text-primary transition-colors"
-                    >
-                      My Orders ({user.name.split(' ')[0]})
-                    </Link>
-                  </li>
+                  {user.role !== 'admin' && (
+                    <li>
+                      <Link
+                        href="/orders"
+                        onClick={() => setMenuOpen(false)}
+                        className="block font-label text-xs uppercase tracking-[0.2em] py-3 border-b border-outline-variant/20 text-on-surface hover:text-primary transition-colors"
+                      >
+                        My Orders ({user.name.split(' ')[0]})
+                      </Link>
+                    </li>
+                  )}
                   {user.role === 'admin' && (
                     <>
+                      <li>
+                        <Link
+                          href="/admin/reviews"
+                          onClick={() => setMenuOpen(false)}
+                          className="block font-label text-xs uppercase tracking-[0.2em] py-3 border-b border-outline-variant/20 text-on-surface hover:text-primary transition-colors"
+                        >
+                          Admin — Reviews
+                        </Link>
+                      </li>
                       <li>
                         <Link
                           href="/admin/products"

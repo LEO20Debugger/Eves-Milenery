@@ -13,6 +13,8 @@ import { SettingsModule } from './settings/settings.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { RolesGuard } from './auth/roles.guard';
 
+import { WishlistModule } from './wishlist/wishlist.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -28,6 +30,7 @@ import { RolesGuard } from './auth/roles.guard';
     UploadsModule,
     ReviewsModule,
     SettingsModule,
+    WishlistModule,
   ],
   providers: [
     {

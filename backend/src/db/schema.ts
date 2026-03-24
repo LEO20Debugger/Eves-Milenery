@@ -100,6 +100,21 @@ export const reviews = pgTable(
   }),
 );
 
+// ─── wishlists ───────────────────────────────────────────────────────────────
+
+export const wishlists = pgTable(
+  'wishlists',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: uuid('user_id').references(() => users.id).notNull(),
+    productId: uuid('product_id').references(() => products.id).notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (table) => ({
+    uniqueUserProduct: unique().on(table.userId, table.productId),
+  }),
+);
+
 // ─── site_settings ───────────────────────────────────────────────────────────
 
 export const siteSettings = pgTable('site_settings', {
@@ -117,6 +132,7 @@ export const schema = {
   orders,
   orderItems,
   reviews,
+  wishlists,
   siteSettings,
 };
 
@@ -139,3 +155,6 @@ export type NewOrderItem = typeof orderItems.$inferInsert;
 
 export type Review = typeof reviews.$inferSelect;
 export type NewReview = typeof reviews.$inferInsert;
+
+export type Wishlist = typeof wishlists.$inferSelect;
+export type NewWishlist = typeof wishlists.$inferInsert;

@@ -11,7 +11,8 @@ interface CartDrawerProps {
 }
 
 export default function CartDrawer({ open, onClose }: CartDrawerProps) {
-  const { items, updateQty, remove, total } = useCartStore();
+  const { items, updateQty, remove, clear } = useCartStore();
+  const total = items.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
   const drawerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -131,7 +132,15 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
           <div className="border-t border-outline-variant/20 px-6 py-6 space-y-4">
             <div className="flex items-center justify-between">
               <span className="font-label text-[10px] uppercase tracking-widest text-outline">Total</span>
-              <span className="font-headline text-xl">₦{total.toLocaleString('en-NG')}</span>
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={clear}
+                  className="font-label text-[10px] uppercase tracking-widest text-outline hover:text-error transition-colors"
+                >
+                  Clear Bag
+                </button>
+                <span className="font-headline text-xl">₦{total.toLocaleString('en-NG')}</span>
+              </div>
             </div>
             <Link
               href="/checkout"

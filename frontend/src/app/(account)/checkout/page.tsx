@@ -16,7 +16,8 @@ interface FormState {
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { items, total } = useCartStore();
+  const { items } = useCartStore();
+  const total = items.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
 
   const [form, setForm] = useState<FormState>({
     name: '',
