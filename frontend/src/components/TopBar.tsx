@@ -63,7 +63,7 @@ export default function TopBar() {
         </div>
 
         {/* Center: logo */}
-        <Link href="/" className="font-headline text-xl tracking-[0.3em] font-bold text-primary">
+        <Link href="/" className="font-headline text-sm md:text-xl tracking-[0.2em] md:tracking-[0.3em] font-bold text-primary whitespace-nowrap">
           EVE&apos;S MILLINERY
         </Link>
 
