@@ -100,6 +100,14 @@ export const reviews = pgTable(
   }),
 );
 
+// ─── site_settings ───────────────────────────────────────────────────────────
+
+export const siteSettings = pgTable('site_settings', {
+  key: varchar('key', { length: 100 }).primaryKey(),
+  value: text('value').notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
 // ─── Schema object (for Drizzle migrations / introspection) ──────────────────
 
 export const schema = {
@@ -109,6 +117,7 @@ export const schema = {
   orders,
   orderItems,
   reviews,
+  siteSettings,
 };
 
 // ─── Inferred TypeScript types ────────────────────────────────────────────────

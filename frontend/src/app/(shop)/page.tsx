@@ -67,26 +67,51 @@ async function getCategories(): Promise<ApiCategory[]> {
   }
 }
 
+async function getSiteSettings(): Promise<Record<string, string>> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001';
+    const res = await fetch(`${baseUrl}/settings`, { next: { revalidate: 60 } });
+    if (!res.ok) return {};
+    return res.json();
+  } catch {
+    return {};
+  }
+}
+
 export default async function HomePage() {
-  const [featuredProducts, categories] = await Promise.all([
+  const [featuredProducts, categories, settings] = await Promise.all([
     getFeaturedProducts(),
     getCategories(),
+    getSiteSettings(),
   ]);
+
+  const heroImage = settings.hero_image_url || '';
+  const heroHeadline = settings.hero_headline || 'The Occasion Anthology';
+  const heroSubtext = settings.hero_subtext || 'New Collection Available';
 
   return (
     <>
       {/* Hero */}
       <section className="relative h-[85vh] w-full overflow-hidden">
-        <div className="absolute inset-0 bg-surface-dim" />
-        {/* Placeholder gradient hero — replace src with a real hero image */}
-        <div className="absolute inset-0 bg-gradient-to-br from-surface-container-highest to-surface-dim" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+        {heroImage ? (
+          <Image
+            src={heroImage}
+            alt="Eve's Millinery hero"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-top grayscale"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-br from-surface-container-highest to-surface-dim" />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
         <div className="absolute inset-0 flex flex-col items-center justify-end pb-24 text-center px-6">
           <p className="font-label text-[0.6875rem] uppercase tracking-[0.3em] text-on-primary-fixed/70 mb-4">
-            New Collection Available
+            {heroSubtext}
           </p>
           <h1 className="font-headline text-5xl md:text-7xl text-on-primary-fixed mb-8 leading-tight max-w-2xl">
-            The Occasion<br />Anthology
+            {heroHeadline}
           </h1>
           <Link
             href="/shop"

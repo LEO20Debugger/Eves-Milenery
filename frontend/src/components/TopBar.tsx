@@ -122,15 +122,35 @@ export default function TopBar() {
                     </Link>
                   </li>
                   {user.role === 'admin' && (
-                    <li>
-                      <Link
-                        href="/admin/products"
-                        onClick={() => setMenuOpen(false)}
-                        className="block font-label text-xs uppercase tracking-[0.2em] py-3 border-b border-outline-variant/20 text-on-surface hover:text-primary transition-colors"
-                      >
-                        Admin
-                      </Link>
-                    </li>
+                    <>
+                      <li>
+                        <Link
+                          href="/admin/products"
+                          onClick={() => setMenuOpen(false)}
+                          className="block font-label text-xs uppercase tracking-[0.2em] py-3 border-b border-outline-variant/20 text-on-surface hover:text-primary transition-colors"
+                        >
+                          Admin — Products
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/admin/orders"
+                          onClick={() => setMenuOpen(false)}
+                          className="block font-label text-xs uppercase tracking-[0.2em] py-3 border-b border-outline-variant/20 text-on-surface hover:text-primary transition-colors"
+                        >
+                          Admin — Orders
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/admin/settings"
+                          onClick={() => setMenuOpen(false)}
+                          className="block font-label text-xs uppercase tracking-[0.2em] py-3 border-b border-outline-variant/20 text-on-surface hover:text-primary transition-colors"
+                        >
+                          Admin — Settings
+                        </Link>
+                      </li>
+                    </>
                   )}
                   <li>
                     <button
