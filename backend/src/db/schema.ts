@@ -30,6 +30,7 @@ export const categories = pgTable('categories', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: varchar('name', { length: 100 }).notNull().unique(),
   slug: varchar('slug', { length: 100 }).notNull().unique(),
+  image: text('image'),
   deleted: integer('deleted').notNull().default(0),
 });
 
