@@ -223,7 +223,7 @@ export default function ShopClient({ categories, initialCategoryId }: ShopClient
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-12 gap-y-16 gap-x-3 md:gap-x-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-y-16 md:gap-x-8">
             {products.map((product, idx) => {
               // Pattern repeats every 5: [wide, offset, 3-col, 3-col, 3-col]
               const pos = idx % 5;
@@ -232,17 +232,14 @@ export default function ShopClient({ categories, initialCategoryId }: ShopClient
               let extraClass = '';
 
               if (pos === 0) {
-                // Mobile: spans both cols (full width). Desktop: 7 cols
-                colClass = 'col-span-2 md:col-span-7';
+                colClass = 'md:col-span-7';
                 aspect = 'aspect-[4/5]';
               } else if (pos === 1) {
-                // Mobile: spans both cols. Desktop: 5 cols offset
-                colClass = 'col-span-2 md:col-span-5';
+                colClass = 'md:col-span-5';
                 aspect = 'aspect-square';
                 extraClass = 'md:mt-16';
               } else {
-                // pos 2, 3, 4 → 1 col each on mobile (2-col grid = pairs), 4 cols on desktop
-                colClass = 'col-span-1 md:col-span-4';
+                colClass = 'md:col-span-4';
                 aspect = 'aspect-[3/4]';
               }
 

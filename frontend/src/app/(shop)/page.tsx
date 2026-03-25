@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { type ProductCardProps } from '@/components/ProductCard';
+import RevealImage from '@/components/RevealImage';
 
 export const metadata: Metadata = {
   title: "Eve's Millinery",
@@ -169,12 +170,10 @@ export default async function HomePage() {
                 <Link href={`/shop/${featuredProducts[0].slug}`} className="block">
                   <div className="relative overflow-hidden bg-surface-container-lowest aspect-[4/5]">
                     {featuredProducts[0].images?.[0] ? (
-                      <Image
+                      <RevealImage
                         src={featuredProducts[0].images[0]}
                         alt={featuredProducts[0].name}
-                        fill
                         sizes="(max-width: 768px) 100vw, 58vw"
-                        className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                       />
                     ) : (
                       <div className="w-full h-full bg-surface-container" />
@@ -201,12 +200,10 @@ export default async function HomePage() {
                 <Link href={`/shop/${featuredProducts[1].slug}`} className="block">
                   <div className="relative overflow-hidden bg-surface-container-lowest aspect-square">
                     {featuredProducts[1].images?.[0] ? (
-                      <Image
+                      <RevealImage
                         src={featuredProducts[1].images[0]}
                         alt={featuredProducts[1].name}
-                        fill
                         sizes="(max-width: 768px) 100vw, 33vw"
-                        className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                       />
                     ) : (
                       <div className="w-full h-full bg-surface-container" />
@@ -230,12 +227,10 @@ export default async function HomePage() {
                 <Link href={`/shop/${product.slug}`} className="block">
                   <div className="relative overflow-hidden bg-surface-container-lowest aspect-[3/4]">
                     {product.images?.[0] ? (
-                      <Image
+                      <RevealImage
                         src={product.images[0]}
                         alt={product.name}
-                        fill
                         sizes="(max-width: 768px) 100vw, 33vw"
-                        className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                       />
                     ) : (
                       <div className="w-full h-full bg-surface-container" />
