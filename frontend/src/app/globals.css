@@ -51,4 +51,26 @@
     height: 1px;
     background-color: #000000;
   }
+
+  /* Scroll reveal: starts grayscale, transitions to color when in view */
+  .reveal-image {
+    filter: grayscale(1);
+    transition: filter 0.8s ease;
+  }
+  /* Desktop (hover capable): reveal on hover via parent group */
+  @media (hover: hover) {
+    .reveal-image {
+      filter: grayscale(1);
+      transition: filter 0.7s ease, transform 0.7s ease;
+    }
+    .group:hover .reveal-image {
+      filter: grayscale(0);
+    }
+  }
+  /* Mobile (no hover): reveal on scroll */
+  @media (hover: none) {
+    .reveal-image.in-view {
+      filter: grayscale(0);
+    }
+  }
 }
