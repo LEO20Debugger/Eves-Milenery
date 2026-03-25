@@ -3,29 +3,29 @@
 import { useEffect, useRef } from 'react';
 import Image, { type ImageProps } from 'next/image';
 
-type RevealImageProps = Omit<ImageProps, 'fill'> & {
+type RevealImageProps = Omit<ImageProps, 'fill' | 'className'> & {
   containerClassName?: string;
 };
 
-export default function RevealImage({ containerClassName = '', className = '', ...props }: RevealImageProps) {
-  const ref = useRef<HTMLDivElement>(null);
+export default function RevealImage({ containerClassName = '', ...props }: RevealImageProps) {
+  const imgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = ref.current;
+    const el = imgRef.current;
     if (!el) return;
 
-    // Only run scroll reveal on touch devices (mobile)
-    // Desktop uses hover via CSS group-hover
-    if (window.matchMedia('(hover: hover)').matches) return;
+    // On desktop (hover capable) — CSS handles it via group-hover, no JS needed
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
+    // Mobile: use IntersectionObserver for scroll reveal
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          el.classList.add('in-view');
+          el.style.filter = 'grayscale(0)';
           observer.disconnect();
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.15 }
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -33,13 +33,14 @@ export default function RevealImage({ containerClassName = '', className = '', .
 
   return (
     <div
-      ref={ref}
-      className={`reveal-image absolute inset-0 ${containerClassName}`}
+      ref={imgRef}
+      style={{ transition: 'filter 0.8s ease' }}
+      className={`absolute inset-0 grayscale group-hover:grayscale-0 ${containerClassName}`}
     >
       <Image
         {...props}
         fill
-        className={`object-cover transition-transform duration-700 group-hover:scale-105 ${className}`}
+        className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700"
       />
     </div>
   );
