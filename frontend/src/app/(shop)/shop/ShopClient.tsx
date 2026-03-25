@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { type ProductCardProps } from '@/components/ProductCard';
 import { type Category } from '@/components/FilterSidebar';
+import RevealImage from '@/components/RevealImage';
 import WishlistButton from '@/components/WishlistButton';
 
 interface ApiProduct {
@@ -112,9 +113,9 @@ export default function ShopClient({ categories, initialCategoryId }: ShopClient
   }, []);
 
   return (
-    <div className="pb-32">
+    <div className="pt-24 pb-32">
       {/* Editorial header */}
-      <section className="px-6 mb-12">
+      <section className="px-6 mb-16">
         <p className="font-label text-[0.6875rem] uppercase tracking-[0.2rem] text-outline mb-4">
           Collection / L&apos;Essence
         </p>
@@ -222,12 +223,8 @@ export default function ShopClient({ categories, initialCategoryId }: ShopClient
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-12 gap-y-16 gap-x-4 md:gap-x-8">
+          <div className="grid grid-cols-2 md:grid-cols-12 gap-y-16 gap-x-3 md:gap-x-8">
             {products.map((product, idx) => {
-              // Pattern per group of 7:
-              // 0 → wide portrait, 1 → offset portrait
-              // 2,3,4 → 3 side by side
-              // 5,6 → 2 side by side
               // Pattern repeats every 5: [wide, offset, 3-col, 3-col, 3-col]
               const pos = idx % 5;
               let colClass = '';
@@ -235,14 +232,16 @@ export default function ShopClient({ categories, initialCategoryId }: ShopClient
               let extraClass = '';
 
               if (pos === 0) {
+                // Mobile: spans both cols (full width). Desktop: 7 cols
                 colClass = 'col-span-2 md:col-span-7';
                 aspect = 'aspect-[4/5]';
               } else if (pos === 1) {
+                // Mobile: spans both cols. Desktop: 5 cols offset
                 colClass = 'col-span-2 md:col-span-5';
                 aspect = 'aspect-square';
                 extraClass = 'md:mt-16';
               } else {
-                // pos 2, 3, 4 → 3 side by side
+                // pos 2, 3, 4 → 1 col each on mobile (2-col grid = pairs), 4 cols on desktop
                 colClass = 'col-span-1 md:col-span-4';
                 aspect = 'aspect-[3/4]';
               }
@@ -252,15 +251,13 @@ export default function ShopClient({ categories, initialCategoryId }: ShopClient
                   <Link href={`/shop/${product.slug}`} className="block">
                     <div className={`relative overflow-hidden bg-surface-container-lowest ${aspect}`}>
                       {product.images?.[0] ? (
-                        <Image
+                        <RevealImage
                           src={product.images[0]}
                           alt={product.name}
-                          fill
                           sizes="(max-width: 768px) 50vw, 33vw"
-                          className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
                         />
                       ) : (
-                        <div className="w-full h-full bg-surface-container flex items-center justify-center">
+                        <div className="absolute inset-0 bg-surface-container flex items-center justify-center">
                           <span className="font-headline text-4xl text-outline">{product.name.charAt(0)}</span>
                         </div>
                       )}
@@ -319,3 +316,4 @@ export default function ShopClient({ categories, initialCategoryId }: ShopClient
     </div>
   );
 }
+
