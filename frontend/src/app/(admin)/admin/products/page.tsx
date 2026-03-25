@@ -171,7 +171,7 @@ export default function AdminProductsPage() {
 
           {loading ? (
             <div className="flex justify-center py-16">
-              <div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent" aria-hidden="true" />
+              <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" aria-hidden="true" />
             </div>
           ) : products.length === 0 ? (
             <p className="text-outline py-12 text-center font-body text-sm">No products found.</p>

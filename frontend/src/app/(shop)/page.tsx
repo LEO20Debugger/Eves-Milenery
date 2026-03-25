@@ -124,7 +124,7 @@ export default async function HomePage() {
             href="/shop"
             className="bg-primary text-on-primary px-10 py-4 font-label text-xs tracking-[0.3em] uppercase hover:bg-primary-container transition-colors duration-300 min-h-[44px] inline-flex items-center"
           >
-            Shop the Collection
+            Shop the Look
           </Link>
         </div>
       </section>
@@ -134,7 +134,7 @@ export default async function HomePage() {
         <section className="py-24 bg-surface">
           <div className="max-w-7xl mx-auto px-6 md:px-12">
             <div className="flex items-end justify-between mb-16">
-              <h2 className="font-headline text-3xl md:text-4xl">Browse by Category</h2>
+              <h2 className="font-headline text-3xl md:text-4xl">Collections</h2>
               <div className="hidden md:block w-1/3 h-px bg-outline-variant/30 mb-2" />
             </div>
             <div className="flex overflow-x-auto hide-scrollbar gap-10 md:gap-16 pb-4 snap-x">
